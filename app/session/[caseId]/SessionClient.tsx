@@ -153,9 +153,9 @@ export function SessionClient({ patientCase }: Props) {
               <path d="M7 1C7 1 2 4 2 7.5C2 10.5 4.2 13 7 13C9.8 13 12 10.5 12 7.5C12 4 7 1 7 1Z" fill="white" />
             </svg>
           </div>
-          <span className="text-xs font-semibold text-slate-900 tracking-tight">SRA Trainer</span>
+          <span className="text-sm text-slate-900">SRA Trainer</span>
           <span className="text-slate-300 text-xs">·</span>
-          <span className="text-xs text-slate-400">Session in progress</span>
+          <span className="text-sm text-slate-400">Session in progress</span>
         </div>
         <div className="flex items-center gap-3">
           {isAnalyzing && (

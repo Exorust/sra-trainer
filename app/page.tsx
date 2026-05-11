@@ -11,34 +11,28 @@ const difficultyLabel = {
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-slate-200 bg-white">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded bg-blue-600 flex items-center justify-center flex-shrink-0">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M7 1C7 1 2 4 2 7.5C2 10.5 4.2 13 7 13C9.8 13 12 10.5 12 7.5C12 4 7 1 7 1Z" fill="white" />
-              </svg>
-            </div>
-            <span className="text-sm font-semibold text-slate-900 tracking-tight">SRA Trainer</span>
-          </div>
-          <span className="text-xs text-slate-400 tracking-widest uppercase">Psychiatry · AI Training</span>
+      {/* Header — no border, matches reference */}
+      <header className="bg-white">
+        <div className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
+          <span className="text-sm text-slate-900 tracking-tight">SRA Trainer</span>
+          <nav className="flex items-center gap-6">
+            <span className="text-sm text-slate-900 border-b border-blue-600 pb-0.5">Home</span>
+            <span className="text-sm text-slate-400">Cases</span>
+            <span className="text-sm text-slate-400">About</span>
+          </nav>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto px-6">
-        {/* Hero */}
-        <div className="pt-16 pb-12 border-b border-slate-200">
-          <p className="text-xs font-semibold tracking-widest uppercase text-blue-600 mb-6">
-            Psychiatry Resident Training Tool
-          </p>
-          <h2 className="text-5xl md:text-6xl font-bold text-slate-900 leading-[1.05] tracking-tight mb-6 max-w-3xl">
-            Practice suicide risk assessment with AI patients.
+        {/* Hero — reference style: large regular-weight display text, lots of air */}
+        <div className="pt-14 pb-12 border-b border-slate-200">
+          <h2 className="text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] font-normal text-slate-900 leading-[1.08] tracking-[-0.02em] mb-8 max-w-4xl">
+            Training suicide risk assessment skills with AI-driven virtual patients.
           </h2>
-          <p className="text-lg text-slate-500 max-w-xl leading-relaxed">
-            Three virtual patients, each with a hidden risk profile. Interview them, get real-time
-            C-SSRS coaching, and debrief with an expert comparison of your questions.
-          </p>
+          <div>
+            <p className="text-sm font-semibold text-slate-900">Psychiatry Resident Training Tool</p>
+            <p className="text-sm text-slate-500">AI Virtual Patients · C-SSRS Framework · Expert Debrief</p>
+          </div>
         </div>
 
         {/* How it works — inline, no cards */}
