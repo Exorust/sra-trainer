@@ -1,8 +1,11 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { generateText } from "ai";
 import { buildAnalystPrompt } from "@/lib/prompts";
 import type { Message, CSSRSDomain, RiskSignal } from "@/types";
 
-const client = new Anthropic();
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+});
 
 export async function POST(req: Request) {
   const { messages, currentDomains, currentSignals }: {
@@ -13,13 +16,11 @@ export async function POST(req: Request) {
 
   const prompt = buildAnalystPrompt(messages, currentDomains, currentSignals);
 
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 500,
-    messages: [{ role: "user", content: prompt }],
+  const { text } = await generateText({
+    model: google("gemini-2.0-flash"),
+    prompt,
+    maxOutputTokens: 600,
   });
-
-  const text = response.content[0].type === "text" ? response.content[0].text : "{}";
 
   try {
     const result = JSON.parse(text);

@@ -1,7 +1,10 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { streamText } from "ai";
 import { CASES } from "@/lib/cases";
 
-const client = new Anthropic();
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+});
 
 export async function POST(req: Request) {
   const { caseId, messages } = await req.json();
@@ -11,29 +14,12 @@ export async function POST(req: Request) {
     return new Response("Case not found", { status: 404 });
   }
 
-  const stream = await client.messages.stream({
-    model: "claude-sonnet-4-6",
-    max_tokens: 300,
+  const result = streamText({
+    model: google("gemini-2.0-flash"),
     system: patientCase.systemPrompt,
     messages,
+    maxOutputTokens: 300,
   });
 
-  const encoder = new TextEncoder();
-  const readable = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of stream) {
-        if (
-          chunk.type === "content_block_delta" &&
-          chunk.delta.type === "text_delta"
-        ) {
-          controller.enqueue(encoder.encode(chunk.delta.text));
-        }
-      }
-      controller.close();
-    },
-  });
-
-  return new Response(readable, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+  return result.toTextStreamResponse();
 }
