@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { ExpertPanel } from "@/components/ExpertPanel";
 import { Button } from "@/components/ui/button";
-import { Brain, Send, StopCircle } from "lucide-react";
+import { Send, StopCircle } from "lucide-react";
 import { INITIAL_CSSRS_DOMAINS } from "@/lib/cases";
 import type { Message, CSSRSDomain, RiskSignal, PatientCase } from "@/types";
 
@@ -144,29 +144,30 @@ export function SessionClient({ patientCase }: Props) {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50">
+    <div className="h-screen flex flex-col bg-white">
       {/* Header */}
       <header className="border-b border-slate-200 bg-white flex items-center justify-between px-4 py-3 flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-            <Brain className="w-4 h-4 text-white" />
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center flex-shrink-0">
+            <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+              <path d="M7 1C7 1 2 4 2 7.5C2 10.5 4.2 13 7 13C9.8 13 12 10.5 12 7.5C12 4 7 1 7 1Z" fill="white" />
+            </svg>
           </div>
-          <div>
-            <h1 className="text-sm font-semibold text-slate-900">SRA Trainer</h1>
-            <p className="text-xs text-slate-500">Session in progress</p>
-          </div>
+          <span className="text-xs font-semibold text-slate-900 tracking-tight">SRA Trainer</span>
+          <span className="text-slate-300 text-xs">·</span>
+          <span className="text-xs text-slate-400">Session in progress</span>
         </div>
         <div className="flex items-center gap-3">
           {isAnalyzing && (
-            <span className="text-xs text-blue-600 animate-pulse">Analyzing...</span>
+            <span className="text-xs text-slate-400 animate-pulse">Analyzing...</span>
           )}
-          <span className="text-xs text-slate-400">{messages.filter((m) => m.role === "user").length} exchanges</span>
+          <span className="text-xs text-slate-400 tabular-nums">{messages.filter((m) => m.role === "user").length} exchanges</span>
           <Button
             onClick={endSession}
             disabled={messages.length < 2}
             size="sm"
             variant="outline"
-            className="text-xs gap-1.5 border-rose-200 text-rose-600 hover:bg-rose-50"
+            className="text-xs gap-1.5 border-slate-200 text-slate-600 hover:bg-slate-50 rounded-none"
           >
             <StopCircle className="w-3.5 h-3.5" />
             End &amp; Debrief
@@ -180,35 +181,35 @@ export function SessionClient({ patientCase }: Props) {
         <div className="flex-1 flex flex-col min-w-0">
           {/* Patient header */}
           <div className="px-4 py-3 border-b border-slate-200 bg-white flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${patientCase.avatarColor}`}>
+            <div className="w-8 h-8 rounded border border-slate-300 flex items-center justify-center text-xs font-bold text-slate-600 flex-shrink-0 bg-white">
               {patientCase.avatarInitials}
             </div>
             <div>
               <p className="font-semibold text-slate-900 text-sm">
                 {patientCase.name}, {patientCase.age}
               </p>
-              <p className="text-xs text-slate-500">{patientCase.occupation}</p>
+              <p className="text-xs text-slate-400">{patientCase.occupation}</p>
             </div>
             <div className="ml-auto">
-              <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">
-                Risk level hidden until debrief
+              <span className="text-xs text-slate-400 tracking-widest uppercase font-medium">
+                Risk hidden · debrief to reveal
               </span>
             </div>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center">
-                <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mb-3 ${patientCase.avatarColor}`}>
+                <div className="w-14 h-14 rounded border border-slate-300 flex items-center justify-center text-lg font-bold text-slate-600 mb-4 bg-white">
                   {patientCase.avatarInitials}
                 </div>
-                <p className="text-slate-900 font-medium mb-1">{patientCase.name} is waiting</p>
-                <p className="text-sm text-slate-500 max-w-xs">
+                <p className="text-slate-900 font-semibold mb-1">{patientCase.name} is waiting</p>
+                <p className="text-sm text-slate-400 max-w-xs italic">
                   &ldquo;{patientCase.presentingComplaint}&rdquo;
                 </p>
-                <p className="text-xs text-slate-400 mt-4">
-                  Introduce yourself and ask an open-ended question to begin.
+                <p className="text-xs text-slate-300 mt-5">
+                  Introduce yourself and begin the interview.
                 </p>
               </div>
             )}
@@ -219,15 +220,15 @@ export function SessionClient({ patientCase }: Props) {
                 className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 {msg.role === "assistant" && (
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold mr-2 flex-shrink-0 mt-1 ${patientCase.avatarColor}`}>
+                  <div className="w-6 h-6 rounded border border-slate-300 flex items-center justify-center text-[10px] font-bold mr-2 flex-shrink-0 mt-1 text-slate-600 bg-white">
                     {patientCase.avatarInitials[0]}
                   </div>
                 )}
                 <div
-                  className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                  className={`max-w-[75%] rounded px-3.5 py-2.5 text-sm leading-relaxed ${
                     msg.role === "user"
-                      ? "bg-blue-600 text-white rounded-br-sm"
-                      : "bg-white border border-slate-200 text-slate-800 rounded-bl-sm"
+                      ? "bg-blue-600 text-white"
+                      : "bg-slate-50 border border-slate-200 text-slate-800"
                   }`}
                 >
                   {msg.content || (
@@ -239,7 +240,7 @@ export function SessionClient({ patientCase }: Props) {
                   )}
                 </div>
                 {msg.role === "user" && (
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ml-2 flex-shrink-0 mt-1 bg-blue-100 text-blue-700">
+                  <div className="w-6 h-6 rounded border border-blue-200 flex items-center justify-center text-[10px] font-bold ml-2 flex-shrink-0 mt-1 bg-blue-50 text-blue-600">
                     You
                   </div>
                 )}
@@ -258,19 +259,19 @@ export function SessionClient({ patientCase }: Props) {
                 onKeyDown={handleKeyDown}
                 placeholder="Type your question or response..."
                 rows={2}
-                className="flex-1 resize-none rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="flex-1 resize-none rounded border border-slate-200 px-3 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600"
                 disabled={isStreaming}
               />
               <Button
                 onClick={sendMessage}
                 disabled={!input.trim() || isStreaming}
                 size="sm"
-                className="h-10 w-10 p-0 flex-shrink-0 rounded-xl bg-blue-600 hover:bg-blue-700"
+                className="h-10 w-10 p-0 flex-shrink-0 rounded bg-blue-600 hover:bg-blue-700"
               >
                 <Send className="w-4 h-4" />
               </Button>
             </div>
-            <p className="text-xs text-slate-400 mt-1.5 ml-1">Press Enter to send · Shift+Enter for new line</p>
+            <p className="text-xs text-slate-400 mt-1.5">Enter to send · Shift+Enter for new line</p>
           </div>
         </div>
 
