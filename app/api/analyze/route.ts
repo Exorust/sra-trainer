@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   const prompt = buildAnalystPrompt(messages, currentDomains, currentSignals);
 
   const { text } = await generateText({
-    model: google("gemini-2.0-flash"),
+    model: google("gemini-2.0-flash-lite"),
     prompt,
     maxOutputTokens: 600,
   });

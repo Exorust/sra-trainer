@@ -10,7 +10,7 @@ async function sha256(text: string): Promise<string> {
     .join("");
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith("/login") || pathname.startsWith("/api/auth")) {

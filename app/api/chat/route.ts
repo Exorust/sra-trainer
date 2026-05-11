@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: google("gemini-2.0-flash"),
+    model: google("gemini-2.0-flash-lite"),
     system: patientCase.systemPrompt,
     messages,
     maxOutputTokens: 300,
