@@ -1,10 +1,10 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { buildAnalystPrompt } from "@/lib/prompts";
 import type { Message, CSSRSDomain, RiskSignal } from "@/types";
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(req: Request) {
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   const prompt = buildAnalystPrompt(messages, currentDomains, currentSignals);
 
   const { text } = await generateText({
-    model: google("gemini-2.0-flash-lite"),
+    model: openai("gpt-4o-mini"),
     prompt,
     maxOutputTokens: 600,
   });

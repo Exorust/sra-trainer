@@ -1,9 +1,9 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { CASES } from "@/lib/cases";
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+const openai = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function POST(req: Request) {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: google("gemini-2.0-flash-lite"),
+    model: openai("gpt-4o-mini"),
     system: patientCase.systemPrompt,
     messages,
     maxOutputTokens: 300,
